@@ -8,6 +8,8 @@ public class PuzzleManager : Singleton<PuzzleManager>
 
     CircleNode[] nodes;
 
+    public static Transform blockBeingDragged;
+
     public void Init()
     {
         nodes = new CircleNode[circleSize * circleSize];
