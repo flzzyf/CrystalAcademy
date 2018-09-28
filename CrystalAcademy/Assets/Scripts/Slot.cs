@@ -5,6 +5,9 @@ using UnityEngine.EventSystems;
 
 public class Slot : MonoBehaviour, IDropHandler
 {
+    public int x, y;
+    public int blockID;
+
     public Transform block
     {
         get

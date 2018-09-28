@@ -2,15 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Block : MonoBehaviour
+public class Block
 {
-    int id;
-    int rightID, leftID, upID, downID;
-    GameObject prefab_unit;
-
-    public void Init(Texture2D _image)
-    {
-        GetComponent<MeshRenderer>().material.mainTexture = _image;
-        GetComponent<MeshRenderer>().material.shader = Shader.Find("Unlit/Transparent");
-    }
+    public int id;
+    public int rightID, leftID, upID, downID;
+    public GameObject prefab_unit;
+    public Texture2D image;
 }

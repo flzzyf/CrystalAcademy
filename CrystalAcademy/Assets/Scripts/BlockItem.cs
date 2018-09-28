@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class BlockItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
     public Block block;
+    public Image image;
 
     Vector2 startPos;
     Transform startParent;
@@ -13,6 +15,8 @@ public class BlockItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
     public void Init()
     {
         //设置图案为block
+        image.sprite = Sprite.Create(block.image, new Rect(0, 0, block.image.width, block.image.height),
+                new Vector2(0.5f, 0.5f));
     }
 
     public void OnBeginDrag(PointerEventData eventData)
