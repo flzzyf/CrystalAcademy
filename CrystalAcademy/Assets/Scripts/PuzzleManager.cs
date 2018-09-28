@@ -10,6 +10,10 @@ public class PuzzleManager : Singleton<PuzzleManager>
 
     public static Transform blockBeingDragged;
 
+    public Texture2D image;
+    public GameObject prefab_block;
+
+
     public void Init()
     {
         nodes = new CircleNode[circleSize * circleSize];
@@ -19,6 +23,22 @@ public class PuzzleManager : Singleton<PuzzleManager>
             print(nodes[i].x + ", " + nodes[i].y);
         }
     }
+
+    // void GeneratePuzzle2()
+    // {
+    //     Texture2D[,] imageSlices = ImageSlicer.Slice(image, size);
+    //     for (int y = 0; y < size; y++)
+    //     {
+    //         for (int x = 0; x < size; x++)
+    //         {
+    //             GameObject go = Instantiate(prefab_block, transform);
+    //             go.transform.position = -Vector2.one * (size - 1) * .5f + new Vector2(x, y);
+
+    //             Block block = go.AddComponent<Block>();
+    //             block.Init(new Vector2Int(x, y), imageSlices[x, y]);
+    //         }
+    //     }
+    // }
 
     //法阵节点
     class CircleNode
@@ -32,12 +52,4 @@ public class PuzzleManager : Singleton<PuzzleManager>
             y = _y;
         }
     }
-}
-
-//拼图块
-public class Block
-{
-    int id;
-    int rightID, leftID, upID, downID;
-    GameObject prefab_unit;
 }
