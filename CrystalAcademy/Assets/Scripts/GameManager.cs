@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
+    void Start()
+    {
+        PuzzleManager.instance.Init();
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.F))
         {
-            PuzzleManager.instance.Init();
+            PuzzleManager.instance.Summon();
         }
     }
 }
