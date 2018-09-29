@@ -25,6 +25,8 @@ public class BlockItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
         startPos = transform.position;
         startParent = transform.parent;
 
+        //print("id:" + block.id + ", " + "rightID:" + block.rightID);
+
         GetComponent<CanvasGroup>().blocksRaycasts = false;
     }
 
@@ -41,10 +43,6 @@ public class BlockItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
         if (transform.parent == startParent)
         {
             transform.position = startPos;
-        }
-        else
-        {
-            transform.localPosition = Vector2.zero;
         }
     }
 }

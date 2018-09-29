@@ -28,7 +28,6 @@ public class PuzzleManager : Singleton<PuzzleManager>
         slotArray = new Slot[circleSize, circleSize];
         for (int i = 0; i < slots.Count; i++)
         {
-            slots[i].blockID = i;
             slots[i].x = i % circleSize;
             slots[i].y = i / circleSize;
 
@@ -78,53 +77,96 @@ public class PuzzleManager : Singleton<PuzzleManager>
 
     public void Summon()
     {
-        //遍历每个槽点
-        for (int y = 0; y < circleSize; y++)
+        //复制一个槽点列表
+        List<Slot> tempSlots = new List<Slot>(slots);
+        List<Slot> list_open = new List<Slot>();
+
+        while (tempSlots.Count > 0)
         {
-            for (int x = 0; x < circleSize; x++)
+            if (!tempSlots[0].blockExists)
             {
-                Slot slot = slotArray[x, y];
-                if (slot.block != null)
+                tempSlots.Remove(tempSlots[0]);
+                continue;
+            }
+
+            list_open.Add(tempSlots[0]);
+            bool fail = false;
+
+            while (list_open.Count > 0)
+            {
+                Slot slot = list_open[0];
+                tempSlots.Remove(slot);
+                list_open.Remove(slot);
+                List<Slot> list = GetRequiredSlot(slot);
+                if (list != null)
                 {
-                    //选出所有需要图块的槽点
-                    List<Slot> list_open = new List<Slot>();
-                    //判断周围所需块存在，否则跳过
-                    //其实应该把判断过的相邻块去掉，不再遍历
-
-                    //需要右边图块，且右方图块存在
-                    if (slot.block.GetComponent<Block>().rightID != -1 && x < circleSize - 1)
+                    foreach (Slot s in list)
                     {
-                        //右边图块是所需图块则将其加入list，否则continue
-                        if (slotArray[x + 1, y].blockID == slot.block.GetComponent<Block>().rightID)
+                        if (tempSlots.Contains(s))
                         {
-                            list_open.Add(slotArray[x + 1, y]);
+                            list_open.Add(s);
                         }
-                        else
-                            continue;
-                    }
-
-                    if (x > 0)
-                    {
-                        if (slot.block.GetComponent<Block>().leftID != -1)
-                        {
-                            list_open.Add(slotArray[x + 1, y]);
-
-                        }
-                    }
-
-                    if (slot.y < circleSize &&
-                        slot.block.GetComponent<Block>().upID != -1)
-                    {
-
                     }
                 }
+                else
+                {
+                    fail = true;
+                    break;
+                }
+            }
+
+            if (!fail)
+            {
+                print("召唤成功");
             }
         }
+    }
 
-        foreach (Slot slot in slots)
+    List<Slot> GetRequiredSlot(Slot _slot)
+    {
+        List<Slot> list = new List<Slot>();
+        //判定右侧
+        if (_slot.x < circleSize - 1 && _slot.block.rightID != -1)
         {
-
+            Slot s = slotArray[_slot.x + 1, _slot.y];
+            if (s.blockExists && s.block.id == _slot.block.rightID)
+            {
+                list.Add(s);
+            }
+            else return null;
         }
+        //判定左侧
+        if (_slot.x > 0 && _slot.block.leftID != -1)
+        {
+            Slot s = slotArray[_slot.x - 1, _slot.y];
+            if (s.blockExists && s.block.id == _slot.block.leftID)
+            {
+                list.Add(s);
+            }
+            else return null;
+        }
+        //判定下方
+        if (_slot.y < circleSize - 1 && _slot.block.downID != -1)
+        {
+            Slot s = slotArray[_slot.x, _slot.y + 1];
+            if (s.blockExists && s.block.id == _slot.block.downID)
+            {
+                list.Add(s);
+            }
+            else return null;
+        }
+        //判定上方
+        if (_slot.y > 0 && _slot.block.upID != -1)
+        {
+            Slot s = slotArray[_slot.x, _slot.y - 1];
+            if (s.blockExists && s.block.id == _slot.block.upID)
+            {
+                list.Add(s);
+            }
+            else return null;
+        }
+
+        return list;
     }
 }
 
