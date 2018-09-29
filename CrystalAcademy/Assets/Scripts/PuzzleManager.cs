@@ -40,7 +40,8 @@ public class PuzzleManager : Singleton<PuzzleManager>
         {
             //设定临时Block数列
             Block[,] tempBlocks = new Block[blockPrefabs[i].sliceCount.x, blockPrefabs[i].sliceCount.y];
-            Texture2D[,] imageSlices = ImageSlicer.Slice(blockPrefabs[i].image, blockPrefabs[i].sliceCount.x);
+            Texture2D[,] imageSlices = ImageSlicer.Slice(blockPrefabs[i].image,
+                blockPrefabs[i].sliceCount.x, blockPrefabs[i].sliceCount.y);
             //创建拼图块
             for (int y = 0; y < blockPrefabs[i].sliceCount.y; y++)
             {

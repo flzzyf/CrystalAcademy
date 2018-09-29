@@ -4,16 +4,16 @@ using UnityEngine;
 
 public static class ImageSlicer
 {
-    public static Texture2D[,] Slice(Texture2D _texture, int _size)
+    public static Texture2D[,] Slice(Texture2D _texture, int _sizeX, int _sizeY)
     {
         int imageSize = Mathf.Min(_texture.width, _texture.height);
-        int blockSize = imageSize / _size;
+        int blockSize = imageSize / Mathf.Min(_sizeX, _sizeY);
 
-        Texture2D[,] blocks = new Texture2D[_size, _size];
+        Texture2D[,] blocks = new Texture2D[_sizeX, _sizeY];
 
-        for (int y = 0; y < _size; y++)
+        for (int y = 0; y < _sizeY; y++)
         {
-            for (int x = 0; x < _size; x++)
+            for (int x = 0; x < _sizeX; x++)
             {
                 Texture2D block = new Texture2D(blockSize, blockSize);
 
